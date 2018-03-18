@@ -4,21 +4,7 @@ This will tell you when the client tries to kick itself, the time at which it ha
 
 # Script
 ```
-local getrawmetatable = getrawmetatable or debug.getmetatable
-local make_writeable = make_writeable or setreadonly or changereadonly or change_writeable
-make_writeable(getrawmetatable(game), false)
-local backup = getrawmetatable(game).__namecall
-getrawmetatable(game).__namecall = function(u, ...)
-   local m = ({...})[select('#', ...)]
-   local packed = {...}
-   local a = {}
-   for i = 1, #packed - 1 do
-       a[i] = packed[i]
-   end
-   if m == 'Kick' then
-       warn('Kick attempt at ' .. os.time() .. ' (' .. tostring(unpack(a)) .. ')')
-       return true
-   end
-   return backup and backup(u, ...) or u[m](u, unpack(a))
-end
+-- Client Anti-Kick
+-- Made By Direnta, check out my stuff on https://github.com/Direnta
+local b=getrawmetatable or debug.getmetatable local a=make_writeable or setreadonly or changereadonly or change_writeable a(b(game),false)local a=b(game).__namecall b(game).__namecall=function(d,...)local c=({...})[select('#',...)]local b={...}local e={}for a=1,#b-1 do e[a]=b[a]end if c=='Kick'then warn('Kick attempt at '..os.time()..' ('..tostring(unpack(e))..')')return true end return a and a(d,...)or d[c](d,unpack(e))end
 ```
