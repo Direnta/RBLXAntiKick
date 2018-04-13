@@ -4,7 +4,21 @@ This will tell you when the client tries to kick itself, the time at which it ha
 
 # Script
 ```
--- RBLXAnti-Kick
--- Made By Direnta, check out my stuff on https://github.com/Direnta
-local a=getrawmetatable or debug.getmetatable;local b=make_writeable or setreadonly or changereadonly or change_writeable;b(a(game),false)local b=a(game).__namecall;a(game).__namecall=function(c,...)local d=({...})[select('#',...)]local a={...}local e={}for b=1,#a-1 do e[b]=a[b]end;if d=='Kick'then warn('Kick attempt at '..os.time()..' ('..tostring(unpack(e))..')')return true end;return b and b(c,...)or c[d](c,unpack(e))end
+local getrawmetatable = getrawmetatable or debug.getmetatable
+local make_writeable = make_writeable or setreadonly or changereadonly or change_writeable
+make_writeable(getrawmetatable(game), false)
+local backup = getrawmetatable(game).__namecall
+getrawmetatable(game).__namecall = function(u, ...)
+   local m = ({...})[select('#', ...)]
+   local packed = {...}
+   local a = {}
+   for i = 1, #packed - 1 do
+       a[i] = packed[i]
+   end
+   if m == 'Kick' then
+       warn('Kick attempt at ' .. os.time() .. ' (' .. tostring(unpack(a)) .. ')')
+       return true
+   end
+   return backup and backup(u, ...) or u[m](u, unpack(a))
+end
 ```
